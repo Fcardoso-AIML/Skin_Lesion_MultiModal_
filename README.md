@@ -2,31 +2,19 @@
 This project implements automated skin lesion classification using the HAM10000 dataset.
 It compares two deep learning approaches:
 
-CV-Only Model: ResNet50 trained solely on dermatoscopic images
-Multimodal Model: ResNet50 for images + tabular features (age, sex, localization)
+- **CV-Only Model**: ResNet50 trained solely on dermatoscopic images
+- **Multimodal Model**: ResNet50 for images + tabular features (age, sex, localization)
 
 Both models use transfer learning and are evaluated through a Streamlit dashboard with interactive visualizations.
 
-📂 Project Structure
-skin-lesion/
-├── Skin_Lesion_Analysis_System.ipynb    # Training pipeline (CV + Multimodal)
-├── app.py                                # Streamlit dashboard
-├── model_weights.h5                      # Saved CV model weights
-├── HAM_ResNet_CV_final.keras            # Full CV model
-├── HAM_ResNet_Multimodal_final.keras    # Full multimodal model
-├── histories.pkl                         # Training history for both models
-├── y_pred_cv.npy                        # CV model predictions
-├── y_pred_mm.npy                        # Multimodal predictions
-├── y_test.npy                           # Ground truth test labels
-├── scaler.pkl, le_sex.pkl, le_loc.pkl   # Preprocessors for tabular data
-├── training_comparison.png               # Training curves comparison
-├── confusion_matrices_comparison.png     # Side-by-side confusion matrices
-└── f1_comparison.png                    # Per-class F1-score comparison
 
-⚙️ Installation
-1. Clone the repository
-bashgit clone https://github.com/franciscocardoso/skin-lesion-classification.git
-cd skin-lesion-classification
+## ⚙️ Installation
+
+### 1. Clone the repository
+
+git clone https://github.com/Fcardoso-AIML/Skin_Lesion_MultiModal_.git
+cd Skin_Lesion_MultiModal_
+
 2. Create environment
 bashconda create -n skin-lesion python=3.11 -y
 conda activate skin-lesion
@@ -65,7 +53,6 @@ Training: 70% (7,010 samples)
 Validation: 15% (1,503 samples)
 Test: 15% (1,503 samples)
 
-
 🏗️ Training
 Run the Jupyter notebook to train both models:
 bashjupyter notebook Skin_Lesion_Analysis_System.ipynb
@@ -83,7 +70,6 @@ Stage 1: Frozen ResNet50 base, train classification head (lr=0.0001, up to 100 e
 Stage 2: Unfreeze entire network, fine-tune (lr=0.00001, 20 epochs)
 Loss: Sparse categorical crossentropy with balanced class weights
 Callbacks: EarlyStopping, ModelCheckpoint
-
 
 🌐 Streamlit Dashboard
 Launch the interactive dashboard:
@@ -124,7 +110,6 @@ Per-class F1-score comparison
 Confusion matrix comparison
 Analysis of multimodal performance
 
-
 📈 Results
 ModelTest AccuracyWeighted F1-ScoreCV-Only85.23%84.96%Multimodal80.31%81.22%Difference-4.92%-3.74%
 Key Findings
@@ -144,20 +129,29 @@ Conclusion:
 Clinical metadata (age, sex, localization) did not improve classification performance. Visual morphology alone captures sufficient diagnostic information for this task, suggesting that dermatoscopic features dominate demographic factors in lesion classification.
 
 🔧 Technical Details
-Model Architectures:
+
+Model Architectures
+
 CV-Only Model:
+
 ResNet50 (ImageNet) → GlobalAvgPool → Dropout(0.5) → 
+
 Dense(128, ReLU) → Dropout(0.3) → Dense(7, Softmax)
+
 Multimodal Model:
+
 Image Branch: ResNet50 → GlobalAvgPool → Dropout(0.5) → Dense(128)
+
 Tabular Branch: Input(3) → Dense(64) → BatchNorm → Dense(32)
+
 Fusion: Concat → Dense(64) → Dropout(0.3) → Dense(7, Softmax)
-Preprocessing:
+
+
+Preprocessing
 
 Images resized to 224×224, normalized to [0,1]
 Age: median imputation + StandardScaler
 Sex/Location: label encoding + StandardScaler
-
 
 ⚠️ Disclaimer
 This project is for educational and research purposes only.
@@ -172,10 +166,6 @@ FDA/CE regulatory approval
 Prospective clinical trials
 Interpretability and uncertainty quantification
 Bias assessment across diverse populations
-
-
-
-
 
 👨‍💻 Author
 Developed by Francisco Cardoso
